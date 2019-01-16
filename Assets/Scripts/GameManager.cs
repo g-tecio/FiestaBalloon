@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Experimental.UIElements;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Advertisements;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -11,9 +13,12 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverPanel, missionsPanel, mainMenuPanel, panelGameScene, showTutorial, heart1, heart2, heart3, closeTutorialButton, showComingSoon, toggleButton, showComingSoonEnd, balloonMenu;
     public GameObject ballonSpawnerCenter, ballonSpawnerLeft, ballonSpawnerRight, arrowSpanerRight, arrowSpanerLeft, arrowRight, arrowLeft, balloonCenter, balloonLeft, balloonRight, buttonTapToPlay;
     public static int health;
-
+    int NumGame;
     public GameObject WhiteBalloonMenu;
 
+    public string ANDROID_RATE_URL = "market://details?id=com.games.cartwheelgalaxy.fiestaballoon";
+    public static long score;
+    public LeaderboardManager script;
 
     bool toggle;
     public bool gameHasBegun;
@@ -22,7 +27,7 @@ public class GameManager : MonoBehaviour
     {
 
         // Application.targetFrameRate = 300;
-
+        NumGame = PlayerPrefs.GetInt("NumGame");
 
         if (PlayerPrefs.HasKey("select"))
         {
@@ -59,6 +64,8 @@ public class GameManager : MonoBehaviour
         ballonSpawnerCenter.SetActive(true);
         ballonSpawnerLeft.SetActive(true);
         ballonSpawnerRight.SetActive(true);
+
+
     }
 
 
@@ -108,6 +115,7 @@ public class GameManager : MonoBehaviour
                 heart2.gameObject.SetActive(false);
                 heart3.gameObject.SetActive(false);
                 gameOverPanel.gameObject.SetActive(true);
+
                 GameObject ballons = GameObject.FindWithTag("Balloon");
                 Destroy(ballons.gameObject);
 
@@ -174,6 +182,24 @@ public class GameManager : MonoBehaviour
          Destroy(arrow.gameObject);
          */
 
+#if UNITY_ANDROID
+        if (Social.localUser.authenticated)
+        {
+            script.ReportScore(score, "CgkIiI2Viq8dEAIQAQ");
+        }
+        else
+            print("no se armò compa");
+
+
+#endif
+
+#if UNITY_IOS
+	         script.ReportScore(score,"FiestaBalloonv1122118");
+#endif
+
+
+
+
 
     }
 
@@ -198,9 +224,19 @@ public class GameManager : MonoBehaviour
 
     public void ReloadGame()
     {
+        NumGame = NumGame + 1;
         gameOverPanel.gameObject.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Debug.Log("print");
+
+        print("Numero de partida:" + NumGame);
+
+        PlayerPrefs.SetInt("NumGame", NumGame);
+
+        if (NumGame % 3 == 0)
+        {
+            Advertisement.Show();
+        }
     }
 
     public void ShowTutorial()
@@ -243,15 +279,18 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void RateApp()
+    {
+#if UNITY_ANDROID
+        Application.OpenURL(ANDROID_RATE_URL);
+#endif
+    }
+
     public void CloseMissions()
     {
         missionsPanel.gameObject.SetActive(false);
         gameOverPanel.gameObject.SetActive(true);
 
     }
-
-
-
-
 
 }

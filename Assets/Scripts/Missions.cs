@@ -7,12 +7,10 @@ using TMPro;
 
 public class Missions : MonoBehaviour
 {
-
     int score;
     int actualCurrency;
     public bool mission01, mission02, mission03, mission04;
     public bool claimedR1, claimedR2, claimedR3, claimedR4;
-
     public GameObject panelMissions, panelGameOver, currentScore;
     public GameObject iconCurrency01, buttonClaimReward01, buttonClaimReward03;
     public GameObject iconCurrency02, buttonClaimReward02, buttonClaimReward04;
@@ -25,8 +23,12 @@ public class Missions : MonoBehaviour
     void Start()
     {
         //PlayerPrefs.DeleteAll();
+        scoreStored = GameObject.Find("GameManager").GetComponent<ScoreManager>().scoreStored;
+        scoreStored2 = GameObject.Find("GameManager").GetComponent<ScoreManager>().scoreStored2;
+
         scoreStored = GameObject.Find("GameManager").GetComponent<ScoreManager>().scoreAcumlated;
         scoreStored2 = GameObject.Find("GameManager").GetComponent<ScoreManager>().scoreAcumlated2;
+
         mission01 = Convert.ToBoolean(PlayerPrefs.GetInt("mission01"));
         mission02 = Convert.ToBoolean(PlayerPrefs.GetInt("mission02"));
         mission03 = Convert.ToBoolean(PlayerPrefs.GetInt("mission03"));
@@ -142,6 +144,9 @@ public class Missions : MonoBehaviour
         Mission04();
 
         score = GameObject.Find("GameManager").GetComponent<ScoreManager>().currentScore;
+        scoreStored = GameObject.Find("GameManager").GetComponent<ScoreManager>().scoreStored;
+        scoreStored2 = GameObject.Find("GameManager").GetComponent<ScoreManager>().scoreStored2;
+
         scoreStored = GameObject.Find("GameManager").GetComponent<ScoreManager>().scoreAcumlated;
         scoreStored2 = GameObject.Find("GameManager").GetComponent<ScoreManager>().scoreAcumlated2;
 
