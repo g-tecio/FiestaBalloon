@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class ScoreManager : MonoBehaviour {
+using System;
 
-	public TextMeshProUGUI currentScoreText;
+public class ScoreManager : MonoBehaviour
+{
+
+    public bool Adfree;
+    public TextMeshProUGUI currentScoreText;
     public TextMeshProUGUI YourScoreText;
     public TextMeshProUGUI bestScoreText;
     public TextMeshProUGUI best;
-    int randomBackground;
-    public Image UIBackground;
 
     public int currentScore = 0;
+    public int currentScore2 = 0;
 
     public Missions Script;
     //bool claimR1;
@@ -25,58 +28,47 @@ public class ScoreManager : MonoBehaviour {
     public TextMeshProUGUI currencyText;
     public TextMeshProUGUI currencyPlus;
     public GameObject currencyBonus;
+    public GameObject currencyBonusDouble;
     private bool premium = false;
 
+      void Start()
+        {
 
-    void Start () 
-    {
 
         scoreStored = PlayerPrefs.GetInt("a");
-        print("SCORE ACUMULADO START:" + scoreStored);
+        //  print("SCORE ACUMULADO START:" + scoreStored);
 
         scoreStored2 = PlayerPrefs.GetInt("b");
-        print("SCORE ACUMULADO SEGUNDO START:" + scoreStored2);
+        // print("SCORE ACUMULADO SEGUNDO START:" + scoreStored2);
 
-
-
-        UIBackground = GameObject.Find("PanelImageBackground").GetComponent<Image>();
+      
         //claimR1 = gameObject.GetComponent<Missions>().claimedR1;
         currentScoreText.text = currentScore.ToString();
         YourScoreText.text = currentScore.ToString();
         GetBestScore();
-        randomBackground = Random.Range(1, 8);
-        print("RANDOM"+randomBackground);
-        switch (randomBackground)
-        {
-            case 1:
-                UIBackground.sprite = Resources.Load<Sprite>("Backgrounds/gradient1");
-                break;
-            case 2:
-                UIBackground.sprite = Resources.Load<Sprite>("Backgrounds/gradient2");
-                break;
-            case 3:
-                UIBackground.sprite = Resources.Load<Sprite>("Backgrounds/gradient3");
-                break;
-            case 4:
-                UIBackground.sprite = Resources.Load<Sprite>("Backgrounds/gradient4");
-                break;
-            case 5:
-                UIBackground.sprite = Resources.Load<Sprite>("Backgrounds/gradient5");
-                break;
-            case 6:
-                UIBackground.sprite = Resources.Load<Sprite>("Backgrounds/gradient6");
-                break;
-            case 7:
-                UIBackground.sprite = Resources.Load<Sprite>("Backgrounds/gradient7");
-                break;
-        }
+
+
 
         //Currency
         getCurrency();
     }
 
+
+
     void Update()
     {
+        saveCurrency = PlayerPrefs.GetInt("Currency", saveCurrency);
+        premium = GameObject.Find("RemoveAds").GetComponent<PurchaserManager>().Adfree;
+       // print("ADFREE UPDATE " + premium);
+
+     
+
+        scoreStored = PlayerPrefs.GetInt("a");
+        // print("SCORE ACUMULADO START:" + scoreStored);
+
+        scoreStored2 = PlayerPrefs.GetInt("b");
+        // print("SCORE ACUMULADO SEGUNDO START:" + scoreStored2);
+
         Missions missions = gameObject.GetComponent<Missions>();
         if (missions.claimedR2 == true)
         {
@@ -88,6 +80,11 @@ public class ScoreManager : MonoBehaviour {
         {
             scoreAcumlated2 = 0;
             PlayerPrefs.SetInt("b", scoreAcumlated2);
+        }
+
+        if (saveCurrency >= 999)
+        {
+            currencyText.text = "999";
         }
     }
 
@@ -114,26 +111,35 @@ public class ScoreManager : MonoBehaviour {
         {
             scoreAcumlated = PlayerPrefs.GetInt("a");
             scoreAcumlated = scoreAcumlated + 1;
-            print("SCORE ACUMULADO TIEMPO REAL: " + scoreAcumlated);
+            //  print("SCORE ACUMULADO TIEMPO REAL: " + scoreAcumlated);
             PlayerPrefs.SetInt("a", scoreAcumlated);
         }
 
-        if (missions.mission01 == true && missions.claimedR2 == true)
+        if (missions.claimedR2 == true)
         {
-            print("Se cumplieron las condiciones");
+            //   print("Se cumplieron las condiciones");
             scoreAcumlated2 = PlayerPrefs.GetInt("b");
             scoreAcumlated2 = scoreAcumlated2 + 1;
-            print("SCORE SEGUNDO: " + scoreAcumlated2);
+            //   print("SCORE SEGUNDO: " + scoreAcumlated2);
             PlayerPrefs.SetInt("b", scoreAcumlated2);
         }
 
 
-
-
+        if (missions.claimedR1 == true)
+        {
+            currentScore2++;
+          //  print("Current score de la mission 2: " + currentScore2);
+        }
 
         //Currency
         if (premium == false)
         {
+
+            if (saveCurrency >= 999)
+            {
+                currencyText.text = "999";
+            }
+
             if (currentScore % 10 == 0)
             {
                 currency++;
@@ -141,21 +147,32 @@ public class ScoreManager : MonoBehaviour {
                 saveCurrency = PlayerPrefs.GetInt("Currency", saveCurrency) + 1;
                 PlayerPrefs.SetInt("Currency", saveCurrency);
                 currencyText.text = PlayerPrefs.GetInt("Currency", saveCurrency).ToString();
-                
+
                 currencyPlus.text = "+" + currency.ToString();
                 StartCoroutine(showCurrency());
             }
         }
         else
         {
+           // print("YEAH YOU GOT THE RIGHT VERSION BRO!");
+            if (saveCurrency >= 999)
+            {
+                currencyText.text = "999";
+            }
 
-            currencyPlus.GetComponent<Text>().text = "+2";
             if (currentScore % 10 == 0)
             {
                 currency = currency + 2;
-                StartCoroutine(showCurrency());
+               // print("CURRENCYALDOBLE" + currency);
+                saveCurrency = PlayerPrefs.GetInt("Currency", saveCurrency) + 2;
+                PlayerPrefs.SetInt("Currency", saveCurrency);
+                currencyText.text = PlayerPrefs.GetInt("Currency", saveCurrency).ToString();
+
+                currencyPlus.text = "+" + currency.ToString();
+                StartCoroutine(showCurrencyDouble());
             }
         }
+
         //End currency
 
         if (currentScore > PlayerPrefs.GetInt("BestScore", 0))
@@ -172,5 +189,12 @@ public class ScoreManager : MonoBehaviour {
         currencyBonus.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         currencyBonus.SetActive(false);
+    }
+
+    IEnumerator showCurrencyDouble()
+    {
+        currencyBonusDouble.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        currencyBonusDouble.SetActive(false);
     }
 }

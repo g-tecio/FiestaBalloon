@@ -16,6 +16,7 @@ public class Player : MonoBehaviour {
     public float min = 0.2f;
     public float max = 0.2f;
     public float speed = 0.1f;
+    public GameObject deadEffect;
 
     void Start ()
     {
@@ -89,10 +90,20 @@ public class Player : MonoBehaviour {
         }
 
         transform.position = new Vector3(Mathf.PingPong(Time.time * speed, max - min) - max, transform.position.y, transform.position.z);
-   
+
+     
     }
-	
-	 void OnMouseDown()
+
+
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Arrow")
+        {
+            Destroy(Instantiate(deadEffect, transform.position, Quaternion.identity), 1.0f);
+        }
+    }
+
+    void OnMouseDown()
     {
 
         soundNumber = Random.Range(1, 3);

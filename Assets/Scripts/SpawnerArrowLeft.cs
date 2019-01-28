@@ -24,13 +24,12 @@ public class SpawnerArrowLeft : MonoBehaviour {
     {
 
         score = GameObject.Find("GameManager").GetComponent<ScoreManager>().currentScore;
-        if (GameObject.Find("ArrowLeft(Clone)") == null && score >= 45)
+        if (GameObject.Find("ArrowLeft(Clone)") == null && score >= 20)
         {
             AudioSource.PlayClipAtPoint(ArrowSound, new Vector3(5, 1, 2));
-            this.gameObject.SetActive(true);
+           // this.gameObject.SetActive(true);
             timer();
         }
-   
 
     }
 
@@ -42,14 +41,13 @@ public class SpawnerArrowLeft : MonoBehaviour {
             randY = Random.Range(4.0f, -4.5f);
             whereToSpawn = new Vector2(transform.position.x, randY);
             whereToSpawnW = new Vector2(transform.position.x + 5.8f, randY);
-
             whatToSpawn = Random.Range(1, 2);
+
             switch (whatToSpawn)
             {
                 case 1:
                     Instantiate(arrow, whereToSpawn, Quaternion.identity);
                     whereToSpawn = new Vector2(transform.position.y, randY);
-
 
                     Instantiate(warningSign, whereToSpawnW, Quaternion.identity);
                     whereToSpawnW = new Vector2(transform.position.y, randY);

@@ -9,6 +9,8 @@ public class LeaderboardManager : MonoBehaviour
 {
 
     public bool success;
+    public string mStatus;
+    public long score;
 
     // Use this for initialization
     void Start()
@@ -19,6 +21,7 @@ public class LeaderboardManager : MonoBehaviour
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.Activate();
+
         PlayGamesPlatform.Instance.Authenticate(SignInCallback, true);
         Debug.Log("LOGIN");
 
@@ -38,7 +41,8 @@ public class LeaderboardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        score = GameObject.Find("GameManager").GetComponent<ScoreManager>().currentScore;
+        Debug.Log("SCORE DE LEADERBOARMANAGER " + score);
     }
 
     void ProcessAuthentication(bool success)
@@ -75,8 +79,22 @@ public class LeaderboardManager : MonoBehaviour
     public void checkScoreboardButton()
     {
 #if UNITY_ANDROID
-        if (PlayGamesPlatform.Instance.localUser.authenticated)
+
+
+        if (PlayGamesPlatform.Instance.IsAuthenticated())
         {
+            /* * PlayGamesPlatform.Instance.LoadScores(
+             GPGSIds.leaderboard_top_players,
+             LeaderboardStart.PlayerCentered,
+             10,
+             LeaderboardCollection.Public,
+             LeaderboardTimeSpan.AllTime,
+             (data) =>
+             {
+                 mStatus = "Leaderboard data valid: " + data.Valid;
+                 mStatus += "\n approx:" + data.ApproximateCount + " have " + data.Scores.Length;
+             });
+             */
             PlayGamesPlatform.Instance.ShowLeaderboardUI();
         }
         else
@@ -85,16 +103,14 @@ public class LeaderboardManager : MonoBehaviour
         }
 
 #endif
-        if (Application.platform == RuntimePlatform.IPhonePlayer)
-        {
+        #if UNITY_IPHONE
             Social.ShowLeaderboardUI();
-        }
+        #endif
     }
-
     public void Login()
     {
-
-        if (!PlayGamesPlatform.Instance.localUser.authenticated)
+#if UNITY_ANDROID
+        if (!PlayGamesPlatform.Instance.IsAuthenticated())
         {
             // Sign in with Play Game Services, showing the consent dialog
             // by setting the second parameter to isSilent=false.
@@ -109,8 +125,11 @@ public class LeaderboardManager : MonoBehaviour
             print("Sign In");
 
         }
+ #endif
 
+ 
     }
+    
     public void SignInCallback(bool success)
     {
         if (success)
@@ -132,4 +151,11 @@ public class LeaderboardManager : MonoBehaviour
             print("Sign-in failed");
         }
     }
+
+
+
+
+
+
+
 }

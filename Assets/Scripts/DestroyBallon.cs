@@ -16,6 +16,7 @@ public class DestroyBallon : MonoBehaviour {
     {
         if (col.gameObject.tag == "Balloon")
         {
+           
             AudioSource.PlayClipAtPoint(explosion, new Vector3(5, 1, 2));
             Destroy(col.gameObject);
             GameManager.health -= 1;
@@ -27,7 +28,7 @@ public class DestroyBallon : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Balloon" || collision.gameObject.tag == "Arrow")
         {
-         
+           // Destroy(Instantiate(deadEffect, transform.position, Quaternion.identity), 1.0f);
             print("Collision");
             GameManager.health -= 1;
         }

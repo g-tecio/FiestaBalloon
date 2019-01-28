@@ -27,12 +27,9 @@ public class SpawnerArrowRight : MonoBehaviour
         if (GameObject.Find("ArrowRight(Clone)") == null && score >= 20)
         {
             AudioSource.PlayClipAtPoint(ArrowSound, new Vector3(5, 1, 2));
-            this.gameObject.SetActive(true);
+            //this.gameObject.SetActive(true);
             timer();
         }
-
-
-
     }
 
     void timer()
