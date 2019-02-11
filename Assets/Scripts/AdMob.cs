@@ -10,7 +10,9 @@ public class AdMob : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string appId = "ca-app-pub-5267056163100832~9843798290";
+        //string appId = "ca-app-pub-5267056163100832~3757745980"; //iOS
+        string appId = "ca-app-pub-5267056163100832~9843798290"; //ANDROID
+        
         MobileAds.Initialize(appId);
         RequestBanner();
     }
@@ -26,7 +28,7 @@ public class AdMob : MonoBehaviour
 #endif
 
         // Create a 320x50 banner at the top of the screen.
-        bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Bottom);
+        bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Bottom);
         // Create an empty ad request.
         AdRequest request = new AdRequest.Builder()
         //.AddTestDevice("E3A02A722AB404CB395263041F75D461")

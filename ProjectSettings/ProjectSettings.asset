@@ -120,7 +120,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.17
+  bundleVersion: 0.20
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -158,7 +158,7 @@ PlayerSettings:
     Standalone: com.games.cartwheel.fiestaballoon
     iOS: com.cartwheelgalaxy.fiestaballoon
   buildNumber: {}
-  AndroidBundleVersionCode: 17
+  AndroidBundleVersionCode: 20
   AndroidMinSdkVersion: 17
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -247,7 +247,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/nice_/Documents/Unity Projects/FiestaBalloon-master/fiestaballoonkey.keystore
+  AndroidKeystoreName: C:/Users/nice_/Documents/Unity Projects/FiestaBalloon/fiestaballoonkey.keystore
   AndroidKeyaliasName: fiestaballoonkey
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1

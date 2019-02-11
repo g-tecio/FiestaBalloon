@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
 
           
     {
+
+        //Application.targetFrameRate = 300;
+        //QualitySettings.vSyncCount = 1; 
+
 #if UNITY_IOS
         SignIn(callback);
 #endif
@@ -184,7 +188,12 @@ public class GameManager : MonoBehaviour
             ballonSpawnerCenter.SetActive(false);
             ballonSpawnerLeft.SetActive(false);
             ballonSpawnerRight.SetActive(false);
-           
+
+            if(Adfree == true)
+            {
+                AdMob.bannerView.Destroy();
+            }
+            
             //BlackScreen.SetActive(false);
 
 
@@ -198,7 +207,7 @@ public class GameManager : MonoBehaviour
         if (panelGameScene.gameObject.activeInHierarchy == true)
         {
             AdMob.bannerView.Destroy();
-           
+            //AdMob.bannerView.Hide();
 
             if (SkinValentine == true)
             {
@@ -232,7 +241,7 @@ public class GameManager : MonoBehaviour
 #endif
 
 #if UNITY_IOS
-   ReportScore(score,"55969983");
+   PostScoreOnLeaderBoard(score);
 #endif
 
     }
@@ -247,6 +256,7 @@ public class GameManager : MonoBehaviour
 
     public void GameBegin()
     {
+       // AdMob.bannerView.Hide();
         mainMenuPanel.gameObject.SetActive(false);
         panelGameScene.gameObject.SetActive(true);
         gameOverPanel.gameObject.SetActive(false);
@@ -469,6 +479,70 @@ public class GameManager : MonoBehaviour
         if (IsGCUseLoggedIn)
         {
             Social.ReportScore(score, id, null);
+        }
+
+    }
+
+
+    public void PostScoreOnLeaderBoard(long myScore)
+
+    {
+
+
+        if (loginSuccessful)
+
+        {
+
+            Debug.Log("si entro al login");
+
+            Social.ReportScore(score, "55969983", (bool success) => {
+
+                if (success)
+
+                    Debug.Log("Successfully uploaded");
+
+
+                // handle success or failure
+
+            });
+
+        }
+
+        else
+
+        {
+
+            Social.localUser.Authenticate((bool success) => {
+
+                if (success)
+
+                {
+
+                    loginSuccessful = true;
+
+                    Debug.Log("Si se arma");
+
+                    Social.ReportScore(myScore, "55969983", (bool successful) => {
+
+                        // handle success or failure
+
+                        Debug.Log("Si se arma2");
+                    });
+
+                }
+
+                else
+
+                {
+
+                    Debug.Log("unsuccessful");
+
+                }
+
+                // handle success or failure
+
+            });
+
         }
 
     }

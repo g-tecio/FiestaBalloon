@@ -7,6 +7,16 @@ public class FadeOut : MonoBehaviour {
 
     public float fadeOutTime = 0.5f;
     bool gamehasBegunFade;
+    int whatToSpawn;
+    bool skinNeon;
+    float nextSpawn = 0.0f;
+    public float spawnRate = 5f;
+
+    public Sprite balloonNeonSprite;
+    public GameObject balloonMenu;
+
+    //public Sprite balloonNeonCenterSprite, balloonNeonLeftSprite, balloonNeonRightSprite, arrowNeonRightSprite, arrowNeonLeftSprite, warningSignNeon, gameTitleMenu, gameTitleStore;
+
 
     void Start()
     {
@@ -23,9 +33,52 @@ public class FadeOut : MonoBehaviour {
         if (gamehasBegunFade == true)
         {
             StartCoroutine(SpriteFadeOut(GetComponent<SpriteRenderer>()));
-        }else
+        }
+        else
         {
-           //NOTHING WILL HAPPEN
+            //NOTHING WILL HAPPEN
+        }
+
+
+        skinNeon = GameObject.Find("SkinManager").GetComponent<SkinManager>().skinNeon;
+        print("MENU DEL FADE OUT" + skinNeon);
+
+        if (skinNeon == true)
+        {
+            if (Time.time > nextSpawn)
+            {
+
+                whatToSpawn = Random.Range(1, 6);
+            switch (whatToSpawn)
+            {
+                //NEON SKIN
+                case 1:
+                    balloonNeonSprite = Resources.Load<Sprite>("Neon/BalloonBlueNeon");
+                    balloonMenu.GetComponent<SpriteRenderer>().sprite = balloonNeonSprite;
+                    break;
+                case 2:
+                    balloonNeonSprite = Resources.Load<Sprite>("Neon/BalloonRedNeon");
+                    balloonMenu.GetComponent<SpriteRenderer>().sprite = balloonNeonSprite;
+                    break;
+                case 3:
+                    balloonNeonSprite = Resources.Load<Sprite>("Neon/BalloonGreenNeon");
+                    balloonMenu.GetComponent<SpriteRenderer>().sprite = balloonNeonSprite;
+                    break;
+                case 4:
+                    balloonNeonSprite = Resources.Load<Sprite>("Neon/BalloonYellowNeon");
+                    balloonMenu.GetComponent<SpriteRenderer>().sprite = balloonNeonSprite;
+                    break;
+                case 5:
+                    balloonNeonSprite = Resources.Load<Sprite>("Neon/BalloonWhiteNeon");
+                    balloonMenu.GetComponent<SpriteRenderer>().sprite = balloonNeonSprite;
+                    break;
+                case 6:
+                    balloonNeonSprite = Resources.Load<Sprite>("Neon/BalloonBlueNeon");
+                    balloonMenu.GetComponent<SpriteRenderer>().sprite = balloonNeonSprite;
+                    break;
+            }
+                nextSpawn = Time.time + spawnRate;
+            }
         }
     }
 

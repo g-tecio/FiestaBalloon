@@ -90,6 +90,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeOutTime: 0.5
+  spawnRate: 5
+  balloonNeonSprite: {fileID: 21300000, guid: 1e436d5520755d34ea28e97bc7c3bb54, type: 3}
+  balloonMenu: {fileID: 1361655145140724}
 --- !u!212 &212306411008607602
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -125,7 +128,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -11
-  m_Sprite: {fileID: 21300000, guid: ef35be5d294e45148b8a409d3723d846, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3536344686dcbf148808f23b6e29f4c8, type: 3}
   m_Color: {r: 0.94509804, g: 0.9372549, b: 0.9372549, a: 1}
   m_FlipX: 0
   m_FlipY: 0

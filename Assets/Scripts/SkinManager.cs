@@ -8,29 +8,39 @@ using UnityEngine.SceneManagement;
 public class SkinManager : MonoBehaviour {
 
 
-    public GameObject arrowRight, arrowLeft, balloonCenter, balloonLeft, balloonRight, balloonMenu, warningSign, lockIcon, heartGroup;
+    public GameObject arrowRight, arrowLeft, balloonCenter, balloonLeft, balloonRight, balloonMenu, warningSign, lockIcon, heartGroup, gameTitleM, gameTitleS;
+    public GameObject lockIconValentine, lockIconNeon, lifeHeart1, lifeHeart2, lifeHeart3;
+
     public Sprite balloonHeartSprite, arrowHeartRightSprite, arrowHeartLeftSprite, warningSignRed;
     public Sprite balloonWhiteSprite, arrowWhiteRightSprite, arrowWhiteLeftSprite, warningSignWhite;
+    public Sprite balloonNeonSprite, balloonNeonCenterSprite, balloonNeonLeftSprite, balloonNeonRightSprite, arrowNeonRightSprite, arrowNeonLeftSprite, warningSignNeon, gameTitleMenu, gameTitleStore, LifeNeon;
+
+
     public Image UIBackground;
     int randomBackground;
     bool gamehasBegun;
 
-    public bool SkinValentine, SkinNormal;
+    public bool SkinValentine, SkinNormal, skinNeon;
 
-    public bool SkinOwnedValentine, SkinOwnedNormal;
+    public bool SkinOwnedValentine, SkinOwnedNormal, skinOwnedNeon;
 
-    
+
     private int actualCurrency = 0;
 
     int priceValentine = 10;
+    int priceNeon = 0;
 
-    void Start ()
+    void Start()
     {
         //PlayerPrefs.DeleteAll();
         SkinValentine = Convert.ToBoolean(PlayerPrefs.GetInt("SkinValentine"));
         SkinNormal = Convert.ToBoolean(PlayerPrefs.GetInt("SkinNormal"));
         SkinOwnedValentine = Convert.ToBoolean(PlayerPrefs.GetInt("SkinOwnedValentine"));
         priceValentine = PlayerPrefs.GetInt("priceValentine");
+
+        skinNeon = Convert.ToBoolean(PlayerPrefs.GetInt("skinNeon"));
+        skinOwnedNeon = Convert.ToBoolean(PlayerPrefs.GetInt("skinOwnedNeon"));
+        priceNeon = PlayerPrefs.GetInt("priceNeon");
 
         if (SkinNormal == false && SkinValentine == false)
         {
@@ -42,13 +52,16 @@ public class SkinManager : MonoBehaviour {
             ChangeBackground1();
         }
 
-
-
         if (SkinValentine == true)
         {
             ChangeBackground2();
         }
-      
+
+        if (skinNeon == true)
+        {
+            ChangeBackground3();
+        }
+
 
 
         if (SkinOwnedValentine == true)
@@ -60,6 +73,18 @@ public class SkinManager : MonoBehaviour {
         {
             priceValentine = 100;
         }
+
+
+        if (skinOwnedNeon == true)
+        {
+            lockIconNeon.gameObject.gameObject.SetActive(false);
+            priceNeon = 0;
+        }
+        else
+        {
+            priceNeon = 0;
+        }
+
 
         if (SkinNormal == true)
         {
@@ -104,6 +129,49 @@ public class SkinManager : MonoBehaviour {
             heartGroup.gameObject.SetActive(true);
          //   wordLove.gameObject.SetActive(false);
         }
+
+
+        if (skinNeon == true)
+        {
+            //NEON SKIN
+            balloonNeonSprite = Resources.Load<Sprite>("Neon/balloonNeonSprite");
+            balloonMenu.GetComponent<SpriteRenderer>().sprite = balloonHeartSprite;
+
+            balloonNeonCenterSprite = Resources.Load<Sprite>("Neon/BalloonBlueNeon");
+            balloonCenter.GetComponent<SpriteRenderer>().sprite = balloonNeonCenterSprite;
+
+            balloonNeonLeftSprite = Resources.Load<Sprite>("Neon/BalloonGreenNeon");
+            balloonLeft.GetComponent<SpriteRenderer>().sprite = balloonNeonLeftSprite;
+
+            balloonNeonRightSprite = Resources.Load<Sprite>("Neon/BalloonRedNeon");
+            balloonRight.GetComponent<SpriteRenderer>().sprite = balloonNeonRightSprite;
+
+            arrowNeonRightSprite = Resources.Load<Sprite>("Neon/ArrowNeonRight");
+            arrowRight.GetComponent<SpriteRenderer>().sprite = arrowNeonRightSprite;
+
+            arrowNeonLeftSprite = Resources.Load<Sprite>("Neon/ArrowNeonLeft");
+            arrowLeft.GetComponent<SpriteRenderer>().sprite = arrowNeonLeftSprite;
+
+            warningSignNeon = Resources.Load<Sprite>("Neon/WarningNeonSign");
+            warningSign.GetComponent<SpriteRenderer>().sprite = warningSignNeon;
+
+            gameTitleMenu = Resources.Load<Sprite>("Neon/GameTitleNeon");
+            gameTitleM.GetComponent<SpriteRenderer>().sprite = gameTitleMenu;
+
+            gameTitleMenu = Resources.Load<Sprite>("Neon/GameTitleNeon");
+            gameTitleS.GetComponent<SpriteRenderer>().sprite = gameTitleMenu;
+
+            LifeNeon = Resources.Load<Sprite>("Neon/LifeNeon");
+            lifeHeart1.GetComponent<SpriteRenderer>().sprite = LifeNeon;
+            lifeHeart2.GetComponent<SpriteRenderer>().sprite = LifeNeon;
+            lifeHeart3.GetComponent<SpriteRenderer>().sprite = LifeNeon;
+
+
+
+        }
+
+
+
     }
 
 
@@ -111,9 +179,10 @@ public class SkinManager : MonoBehaviour {
     {
         SkinNormal = true;
         SkinValentine = false;
+        skinNeon = false;
         PlayerPrefs.SetInt("SkinValentine", Convert.ToInt32(SkinValentine));
         PlayerPrefs.SetInt("SkinNormal", Convert.ToInt32(SkinNormal));
-
+        PlayerPrefs.SetInt("skinNeon", Convert.ToInt32(skinNeon));
 
         heartGroup.gameObject.SetActive(false);
       //  wordLove.gameObject.SetActive(false);
@@ -161,8 +230,10 @@ public class SkinManager : MonoBehaviour {
 
             SkinValentine = true;
             SkinNormal = false;
+            skinNeon = false;
             PlayerPrefs.SetInt("SkinValentine", Convert.ToInt32(SkinValentine));
             PlayerPrefs.SetInt("SkinNormal", Convert.ToInt32(SkinNormal));
+            PlayerPrefs.SetInt("skinNeon", Convert.ToInt32(skinNeon));
 
             SkinOwnedValentine = true;
             PlayerPrefs.SetInt("SkinOwnedValentine", Convert.ToInt32(SkinOwnedValentine));
@@ -194,10 +265,82 @@ public class SkinManager : MonoBehaviour {
 
     }
 
+
+    public void SkinNeonSelected()
+    {
+        // actualCurrency = GameObject.Find("GameManager").GetComponent<ScoreManager>().saveCurrency;
+
+        if (actualCurrency >= priceNeon)
+        {
+
+            actualCurrency = actualCurrency - priceNeon;
+            priceNeon = 0;
+
+            PlayerPrefs.SetInt("priceNeon", priceNeon);
+            PlayerPrefs.SetInt("Currency", actualCurrency);
+
+            // print("CURRENCY AFTER YOU HAVE BOUGHT A SKIN:" + actualCurrency);
+
+            lockIconNeon.gameObject.SetActive(false);
+
+            SkinValentine = false;
+            SkinNormal = false;
+            skinNeon = true;
+            PlayerPrefs.SetInt("SkinValentine", Convert.ToInt32(SkinValentine));
+            PlayerPrefs.SetInt("SkinNormal", Convert.ToInt32(SkinNormal));
+            PlayerPrefs.SetInt("skinNeon", Convert.ToInt32(skinNeon));
+
+            skinOwnedNeon = true;
+            PlayerPrefs.SetInt("skinOwnedNeon", Convert.ToInt32(skinOwnedNeon));
+
+            //NEON SKIN
+            balloonNeonSprite = Resources.Load<Sprite>("Neon/balloonNeonSprite");
+            balloonMenu.GetComponent<SpriteRenderer>().sprite = balloonHeartSprite;
+
+            balloonNeonCenterSprite = Resources.Load<Sprite>("Neon/BalloonBlueNeon");
+            balloonCenter.GetComponent<SpriteRenderer>().sprite = balloonNeonCenterSprite;
+
+            balloonNeonLeftSprite = Resources.Load<Sprite>("Neon/BalloonGreenNeon");
+            balloonLeft.GetComponent<SpriteRenderer>().sprite = balloonNeonLeftSprite;
+
+            balloonNeonRightSprite = Resources.Load<Sprite>("Neon/BalloonRedNeon");
+            balloonRight.GetComponent<SpriteRenderer>().sprite = balloonNeonRightSprite;
+
+            arrowNeonRightSprite = Resources.Load<Sprite>("Neon/ArrowNeonRight");
+            arrowRight.GetComponent<SpriteRenderer>().sprite = arrowNeonRightSprite;
+
+            arrowNeonLeftSprite = Resources.Load<Sprite>("Neon/ArrowNeonLeft");
+            arrowLeft.GetComponent<SpriteRenderer>().sprite = arrowNeonLeftSprite;
+
+            warningSignNeon = Resources.Load<Sprite>("Neon/WarningNeonSign");
+            warningSign.GetComponent<SpriteRenderer>().sprite = warningSignNeon;
+
+            gameTitleMenu = Resources.Load<Sprite>("Neon/GameTitleNeon");
+            gameTitleM.GetComponent<SpriteRenderer>().sprite = gameTitleMenu;
+
+            gameTitleMenu = Resources.Load<Sprite>("Neon/GameTitleNeon");
+            gameTitleS.GetComponent<SpriteRenderer>().sprite = gameTitleMenu;
+
+            LifeNeon = Resources.Load<Sprite>("Neon/LifeNeon");
+            lifeHeart1.GetComponent<SpriteRenderer>().sprite = LifeNeon;
+            lifeHeart2.GetComponent<SpriteRenderer>().sprite = LifeNeon;
+            lifeHeart3.GetComponent<SpriteRenderer>().sprite = LifeNeon;
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        else
+        {
+            //   print("You don't have enough currency");
+        }
+
+    }
+
+
+
     void Update()
     {
         actualCurrency = GameObject.Find("GameManager").GetComponent<ScoreManager>().saveCurrency;
-
+        print("CURRENCY AT THE START " + actualCurrency);
         gamehasBegun = GameObject.Find("GameManager").GetComponent<GameManager>().gameHasBegun;
         if (gamehasBegun == true)
         {
@@ -261,6 +404,13 @@ public class SkinManager : MonoBehaviour {
                 break;
 
         }
+    }
+
+    void ChangeBackground3()
+    {
+        UIBackground = GameObject.Find("PanelImageBackground").GetComponent<Image>();
+        UIBackground.sprite = Resources.Load<Sprite>("Backgrounds/gradient10");
+  
     }
 
 

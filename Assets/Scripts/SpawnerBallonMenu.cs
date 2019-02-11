@@ -5,11 +5,14 @@ using UnityEngine;
 public class SpawnerBallonMenu : MonoBehaviour {
 
     public GameObject balloonGreen, balloonOrange, balloonPink, balloonYellow, balloonBlue, balloonPurple;
+    public GameObject balloonGreenNeon, balloonYellowNeon, balloonWhiteNeon, balloonBlueNeon, balloonRedNeon;
+
     float randX;
     Vector2 whereToSpawn;
     public float spawnRate = 2f;
     float nextSpawn = 0.0f;
     int whatToSpawn;
+    bool skinNeon;
     // Use this for initialization
     void Start()
     {
@@ -19,6 +22,9 @@ public class SpawnerBallonMenu : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        skinNeon = GameObject.Find("SkinManager").GetComponent<SkinManager>().skinNeon;
+        print("MENU " + skinNeon);
+
         if (Time.time > nextSpawn)
         {
 
@@ -56,6 +62,6 @@ public class SpawnerBallonMenu : MonoBehaviour {
 
             }
             nextSpawn = Time.time + spawnRate;
-        }
+        }       
     }
 }

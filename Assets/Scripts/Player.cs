@@ -28,7 +28,6 @@ public class Player : MonoBehaviour {
 	void Update () 
     {
 
-
         if (score == 5)
         {
             speed = 0.1f;
@@ -90,8 +89,6 @@ public class Player : MonoBehaviour {
         }
 
         transform.position = new Vector3(Mathf.PingPong(Time.time * speed, max - min) - max, transform.position.y, transform.position.z);
-
-     
     }
 
 
@@ -102,7 +99,7 @@ public class Player : MonoBehaviour {
             Destroy(Instantiate(deadEffect, transform.position, Quaternion.identity), 1.0f);
         }
     }
-
+    
     void OnMouseDown()
     {
 
@@ -123,4 +120,8 @@ public class Player : MonoBehaviour {
         rb.AddForce(transform.up * -28222);
         GameObject.Find("GameManager").GetComponent<ScoreManager>().AddScore();
     }
+   
+
+
+
 }
